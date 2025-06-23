@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  postgres_sections:
+    image: postgres:13
+    container_name: postgres_sections
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: sections_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - pg_sections:/var/lib/postgresql/data
+
+  section-reading-service:
+    build: ./15.section-reading-service/section-reading-service
+    ports:
+      - "3011:3011"
+    depends_on:
+      - postgres_sections
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_sections
+      DB_NAME: sections_db
+
+volumes:
+  pg_sections:

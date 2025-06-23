@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Users DB
+  postgres:
+    image: postgres:13
+    container_name: userdb
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: userdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Servicios del dominio Users
+  user-creation-service:
+    build: ./1.user-creation-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  login-service:
+    build: ./4.login-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres
+
+  # PostgreSQL Sections
+  postgres_sections:
+    image: postgres:13
+    container_name: postgres_sections
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: sections_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - pg_sections:/var/lib/postgresql/data
+
+  section-creation-service:
+    build: ./Course/14.section-creation-service
+    ports:
+      - "3010:3010"
+    depends_on:
+      - postgres_sections
+
+  # PostgreSQL Enrollment
+  postgres_enrollment:
+    image: postgres:13
+    container_name: postgres_enrollment
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: enrollment_logs
+    ports:
+      - "5435:5432"
+    volumes:
+      - pg_enrollment:/var/lib/postgresql/data
+
+  enrollment-creation-service:
+    build: ./19.enrollment-creation-service
+    ports:
+      - "3016:3016"
+    depends_on:
+      - postgres_enrollment
+
+  # 🔥 API Gateway
+  api-gateway:
+    build: ./gateway
+    container_name: api-gateway
+    ports:
+      - "80:80"
+    depends_on:
+      - user-creation-service
+      - section-creation-service
+      - enrollment-creation-service
+
+volumes:
+  pgdata:
+  pg_sections:
+  pg_enrollment:

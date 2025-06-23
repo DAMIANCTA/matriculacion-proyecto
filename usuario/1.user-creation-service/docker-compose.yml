@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:13
+    container_name: userdb
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: userdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  user-creation-service:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+volumes:
+  pgdata:

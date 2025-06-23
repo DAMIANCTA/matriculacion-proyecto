@@ -1,0 +1,5 @@
+com\globalenrollment\login\UserRepository.class
+com\globalenrollment\login\LoginServiceApplication.class
+com\globalenrollment\login\User.class
+com\globalenrollment\login\LoginRequest.class
+com\globalenrollment\login\LoginController.class

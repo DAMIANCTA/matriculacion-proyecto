@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+  subjects_db:
+    image: postgres:13
+    container_name: subjects_db
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: subjects_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - subjects_pgdata:/var/lib/postgresql/data
+      
+  subject-creation-service:
+    build: ./10.subject-creation-service/subject-creation-service
+    depends_on:
+      - subjects_db
+    ports:
+      - "3006:3006"
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: subjects_db
+      DB_NAME: subjects_db
+   
+  
+  subject-reading-service:
+    build: ./11.subject-reading-service
+    depends_on:
+      - subjects_db
+    ports:
+      - "3007:3007"
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: subjects_db
+      DB_NAME: subjects_db
+
+  subject-update-service:
+    build: ./12.subject-update-service
+    depends_on:
+      - subjects_db
+    ports:
+      - "3008:3008"
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: subjects_db
+      DB_NAME: subjects_db
+
+  subject-search-service:
+    build: ./13.subject-search-service
+    depends_on:
+      - subjects_db
+    ports:
+      - "3009:3009"
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: subjects_db
+      DB_NAME: subjects_db
+
+
+
+volumes:
+  subjects_pgdata:

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+
+  postgres_enrollment:
+    image: postgres:13
+    container_name: postgres_enrollment
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: enrollment_logs
+    ports:
+      - "5435:5432"
+    volumes:
+      - pg_enrollment:/var/lib/postgresql/data
+
+  enrollment-creation-service:
+    build: ./19.enrollment-creation-service
+    container_name: enrollment-creation-service
+    ports:
+      - "3016:3016"
+    depends_on:
+      - postgres_enrollment
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_enrollment
+      DB_NAME: enrollment_logs
+    restart: always
+
+  enrollment-reading-service:
+    build: ./20.enrollment-reading-service
+    ports:
+      - "3020:3020"
+    depends_on:
+      - postgres_enrollment
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_enrollment
+      DB_NAME: enrollment_logs
+
+volumes:
+  pg_subjects:
+  pg_sections:
+  pg_enrollment:

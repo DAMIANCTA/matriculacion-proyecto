@@ -1,0 +1,4 @@
+com\globalenrollment\usercreation\controller\StudentUserController.class
+com\globalenrollment\usercreation\repository\StudentUserRepository.class
+com\globalenrollment\usercreation\UserCreationServiceApplication.class
+com\globalenrollment\usercreation\model\StudentUser.class

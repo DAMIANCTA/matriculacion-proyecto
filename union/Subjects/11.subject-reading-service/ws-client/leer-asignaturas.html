@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ver Asignaturas</title>
+</head>
+<body>
+  <h1>Leer asignaturas</h1>
+  <button onclick="getSubjects()">Obtener asignaturas</button>
+  <pre id="output"></pre>
+
+  <script>
+    const socket = new WebSocket("ws://localhost:3006/ws/subjects");
+    socket.onmessage = event => {
+      document.getElementById("output").textContent = JSON.stringify(JSON.parse(event.data), null, 2);
+    };
+    function getSubjects() {
+      socket.send(JSON.stringify({ operation: "get_all" }));
+    }
+  </script>
+</body>
+</html>

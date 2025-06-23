@@ -1,0 +1,105 @@
+services:
+  postgres_subjects:
+    image: postgres:13
+    container_name: postgres_subjects
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: subjects_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_subjects:/var/lib/postgresql/data
+
+  postgres_sections:
+    image: postgres:13
+    container_name: postgres_sections
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: sections_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - pg_sections:/var/lib/postgresql/data
+
+  subject-creation-service:
+    build: ./Subjects/10.subject-creation-service/subject-creation-service
+    ports:
+      - "3006:3006"
+    depends_on:
+      - postgres_subjects
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_subjects
+      DB_NAME: subjects_db
+
+
+  subject-reading-service:
+    build: ./Subjects/11.subject-reading-service
+    ports:
+      - "3007:3007"
+    depends_on:
+      - postgres_subjects
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_subjects
+      DB_NAME: subjects_db
+
+
+
+  section-creation-service:
+    build: ./Course/14.section-creation-service
+    ports:
+      - "3010:3010"
+    depends_on:
+      - postgres_sections
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_sections
+      DB_NAME: sections_db
+
+  section-reading-service:
+    build: ./Course/15.section-reading-service
+    ports:
+      - "3011:3011"
+    depends_on:
+      - postgres_sections
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_sections
+      DB_NAME: sections_db
+  
+  section-update-service:
+    build: ./Course/16.section-update-service
+    ports:
+      - "3012:3012"
+    depends_on:
+      - postgres_sections
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_sections
+      DB_NAME: sections_db
+
+  section-deletion-service:
+    build: ./Course/17.Section-Deletion-Service
+    ports:
+      - "3014:3014"
+    depends_on:
+      - postgres_sections
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_sections
+      DB_NAME: sections_db
+    
+
+
+volumes:
+  pg_subjects:
+  pg_sections:

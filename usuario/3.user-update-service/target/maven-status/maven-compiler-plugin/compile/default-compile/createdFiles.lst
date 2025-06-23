@@ -1,0 +1,4 @@
+com\globalenrollment\userupdate\User.class
+com\globalenrollment\userupdate\UserRepository.class
+com\globalenrollment\userupdate\UserUpdateServiceApplication.class
+com\globalenrollment\userupdate\UserController.class

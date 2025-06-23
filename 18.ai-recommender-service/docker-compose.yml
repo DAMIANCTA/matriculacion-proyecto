@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mongo_recommender:
+    image: mongo:6
+    container_name: mongo_recommender
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_recommender_data:/data/db
+
+  ai-recommender-service:
+    build: .
+    container_name: ai-recommender-service
+    ports:
+      - "3015:80"
+    depends_on:
+      - mongo_recommender
+    environment:
+      - MONGO_URI=mongodb://mongo_recommender:27017
+      - MONGO_DB=recommender_ai
+
+volumes:
+  mongo_recommender_data:
