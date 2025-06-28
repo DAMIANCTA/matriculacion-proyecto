@@ -8,6 +8,9 @@ services:
       - "27017:27017"
     volumes:
       - mongo_recommender_data:/data/db
+    networks:
+      - campus_net
+    restart: unless-stopped
 
   ai-recommender-service:
     build: .
@@ -19,6 +22,13 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo_recommender:27017
       - MONGO_DB=recommender_ai
+    networks:
+      - campus_net
+    restart: unless-stopped
 
 volumes:
   mongo_recommender_data:
+
+networks:
+  campus_net:
+    external: true

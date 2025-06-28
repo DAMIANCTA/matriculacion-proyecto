@@ -1,0 +1,12 @@
+
+package com.globalenrollment.userupdate;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class UserUpdateServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(UserUpdateServiceApplication.class, args);
+    }
+}

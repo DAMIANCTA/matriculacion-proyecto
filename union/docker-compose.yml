@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   postgres_subjects:
     image: postgres:13
@@ -10,6 +12,8 @@ services:
       - "5433:5432"
     volumes:
       - pg_subjects:/var/lib/postgresql/data
+    networks:
+      - campus_net
 
   postgres_sections:
     image: postgres:13
@@ -22,6 +26,8 @@ services:
       - "5434:5432"
     volumes:
       - pg_sections:/var/lib/postgresql/data
+    networks:
+      - campus_net
 
   subject-creation-service:
     build: ./Subjects/10.subject-creation-service/subject-creation-service
@@ -34,7 +40,8 @@ services:
       DB_PASSWORD: 0710
       DB_HOST: postgres_subjects
       DB_NAME: subjects_db
-
+    networks:
+      - campus_net
 
   subject-reading-service:
     build: ./Subjects/11.subject-reading-service
@@ -47,8 +54,36 @@ services:
       DB_PASSWORD: 0710
       DB_HOST: postgres_subjects
       DB_NAME: subjects_db
+    networks:
+      - campus_net
 
+  subject-update-service:
+    build: ./Subjects/12.subject-update-service
+    ports:
+      - "3008:3008"
+    depends_on:
+      - postgres_subjects
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_subjects
+      DB_NAME: subjects_db
+    networks:
+      - campus_net
 
+  subject-search-service:
+    build: ./Subjects/13.subject-search-service
+    ports:
+      - "3009:3009"
+    depends_on:
+      - postgres_subjects
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_subjects
+      DB_NAME: subjects_db
+    networks:
+      - campus_net
 
   section-creation-service:
     build: ./Course/14.section-creation-service
@@ -61,6 +96,8 @@ services:
       DB_PASSWORD: 0710
       DB_HOST: postgres_sections
       DB_NAME: sections_db
+    networks:
+      - campus_net
 
   section-reading-service:
     build: ./Course/15.section-reading-service
@@ -73,7 +110,9 @@ services:
       DB_PASSWORD: 0710
       DB_HOST: postgres_sections
       DB_NAME: sections_db
-  
+    networks:
+      - campus_net
+
   section-update-service:
     build: ./Course/16.section-update-service
     ports:
@@ -85,6 +124,8 @@ services:
       DB_PASSWORD: 0710
       DB_HOST: postgres_sections
       DB_NAME: sections_db
+    networks:
+      - campus_net
 
   section-deletion-service:
     build: ./Course/17.Section-Deletion-Service
@@ -97,9 +138,13 @@ services:
       DB_PASSWORD: 0710
       DB_HOST: postgres_sections
       DB_NAME: sections_db
-    
-
+    networks:
+      - campus_net
 
 volumes:
   pg_subjects:
   pg_sections:
+
+networks:
+  campus_net:
+    external: true

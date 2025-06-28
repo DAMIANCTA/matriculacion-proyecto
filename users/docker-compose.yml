@@ -1,0 +1,121 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:13
+    container_name: userdb
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: userdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - campus_net
+
+  user-creation-service:
+    build: ./1.user-creation-service
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - campus_net
+
+  user-reading-service:
+    build: ./2.user-reading-service
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8081"
+    networks:
+      - campus_net
+
+  user-update-service:
+    build: ./3.user-update-service
+    depends_on:
+      - postgres
+    ports:
+      - "8082:8082"
+    networks:
+      - campus_net
+
+  login-service:
+    build: ./4.login-service
+    depends_on:
+      - postgres
+    ports:
+      - "8083:8083"
+    networks:
+      - campus_net
+
+  logout-service:
+    build: ./5.logout-service
+    ports:
+      - "3001:3001"
+    networks:
+      - campus_net
+
+  usuario-password-change-service:
+    build: ./6.password-change-service
+    ports:
+      - "3002:3002"
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres
+      DB_NAME: userdb
+    depends_on:
+      - postgres
+    networks:
+      - campus_net
+
+  user-deletion-service:
+    build: ./7.user-deletion-service
+    depends_on:
+      - postgres
+    ports:
+      - "3004:3004"
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres
+      DB_NAME: userdb
+    networks:
+      - campus_net
+
+  role-assignment-service:
+    build: ./8.role-assignment-service
+    ports:
+      - "3003:3003"
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres
+      DB_NAME: userdb
+    depends_on:
+      - postgres
+    networks:
+      - campus_net
+
+  role-verification-service:
+    build: ./9.role-verification-service
+    ports:
+      - "3005:3005"
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres
+      DB_NAME: userdb
+    depends_on:
+      - postgres
+    networks:
+      - campus_net
+
+networks:
+  campus_net:
+    external: true
+
+volumes:
+  pgdata:

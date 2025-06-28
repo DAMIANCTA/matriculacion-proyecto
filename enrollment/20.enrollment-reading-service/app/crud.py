@@ -1,15 +1,11 @@
-from app.models import Enrollment, EnrollmentLog
-from app.database import SessionLocal
+from sqlalchemy.orm import Session
+from .models import Enrollment
 
+def get_all_enrollments(db: Session):
+    return db.query(Enrollment).all()
 
-def get_all_enrollments():
-    db = SessionLocal()
-    result = db.query(Enrollment).all()
-    db.close()
-    return result
+def get_enrollments_by_student(db: Session, student_id: str):
+    return db.query(Enrollment).filter(Enrollment.student_id == student_id).all()
 
-def get_all_enrollment_logs():
-    db = SessionLocal()
-    result = db.query(EnrollmentLog).all()
-    db.close()
-    return result
+def get_enrollments_by_state(db: Session, state: str):
+    return db.query(Enrollment).filter(Enrollment.status.ilike(state)).all()

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AiRecommenderService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4399a1bcc4a921f57a38b83017f6b393036756f4")]
 [assembly: System.Reflection.AssemblyProductAttribute("AiRecommenderService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AiRecommenderService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

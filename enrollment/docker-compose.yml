@@ -13,6 +13,8 @@ services:
       - "5435:5432"
     volumes:
       - pg_enrollment:/var/lib/postgresql/data
+    networks:
+      - campus_net
 
   enrollment-creation-service:
     build: ./19.enrollment-creation-service
@@ -27,6 +29,8 @@ services:
       DB_HOST: postgres_enrollment
       DB_NAME: enrollment_logs
     restart: always
+    networks:
+      - campus_net
 
   enrollment-reading-service:
     build: ./20.enrollment-reading-service
@@ -39,8 +43,26 @@ services:
       DB_PASSWORD: 0710
       DB_HOST: postgres_enrollment
       DB_NAME: enrollment_logs
+    networks:
+      - campus_net
+
+  enrollment-update-service:
+    build: ./21.enrollment-update-service
+    ports:
+      - "3021:3021"
+    depends_on:
+      - postgres_enrollment
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_enrollment
+      DB_NAME: enrollment_logs
+    networks:
+      - campus_net
+
+networks:
+  campus_net:
+    external: true
 
 volumes:
-  pg_subjects:
-  pg_sections:
   pg_enrollment:
