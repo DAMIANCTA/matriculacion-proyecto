@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres_history:
+    image: postgres:13
+    container_name: postgres_history
+    environment:
+      POSTGRES_USER: damian
+      POSTGRES_PASSWORD: 0710
+      POSTGRES_DB: academic_history
+    ports:
+      - "5436:5432"
+    volumes:
+      - pg_history:/var/lib/postgresql/data
+    networks:
+      - campus_net
+
+  history-creation-service:
+    build: ./23.history-creation-service
+    ports:
+      - "3017:3017"
+    depends_on:
+      - postgres_history
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_history
+      DB_NAME: academic_history
+    networks:
+      - campus_net
+
+networks:
+  campus_net:
+    external: true
+
+volumes:
+  pg_history:
