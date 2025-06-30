@@ -1,16 +1,17 @@
-from pydantic import BaseModel
-from uuid import UUID
+from pydantic import BaseModel, UUID4
 from datetime import datetime
 from typing import Optional
 
 class AcademicHistoryCreate(BaseModel):
-    student_id: UUID
-    section_id: UUID
+    student_id: UUID4
+    section_id: UUID4
+    enrollment_id: UUID4
+    action: str
     description: Optional[str] = None
 
 class AcademicHistoryResponse(AcademicHistoryCreate):
-    id: UUID
+    id: UUID4
     recorded_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True

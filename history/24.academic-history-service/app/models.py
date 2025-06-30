@@ -1,7 +1,9 @@
-import uuid
-from sqlalchemy import Column, String, DateTime, func
+
+from sqlalchemy import Column, String, DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from app.database import Base
+import uuid
 
 class AcademicHistory(Base):
     __tablename__ = "academic_history"

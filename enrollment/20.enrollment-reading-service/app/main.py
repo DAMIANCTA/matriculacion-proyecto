@@ -14,6 +14,13 @@ def get_db():
     finally:
         db.close()
 
+@app.get("/enrollments/{enrollment_id}")
+def get_enrollment_by_id(enrollment_id: str, db: Session = Depends(get_db)):
+    enrollment = db.query(models.Enrollment).filter(models.Enrollment.id == enrollment_id).first()
+    if not enrollment:
+        raise HTTPException(status_code=404, detail="Enrollment not found")
+    return enrollment
+
 @app.get("/enrollments", response_model=list[schemas.EnrollmentResponse])
 def get_all_enrollments(db: Session = Depends(get_db)):
     return crud.get_all_enrollments(db)

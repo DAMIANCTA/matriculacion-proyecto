@@ -1,6 +1,6 @@
 # history-creation-service
 
-Microservicio para registrar el historial académico de un estudiante en el sistema distribuido de matriculación.
+Este microservicio registra eventos históricos relacionados con la matrícula de estudiantes.
 
 ## Tecnologías
 - Python 3.11
@@ -9,17 +9,10 @@ Microservicio para registrar el historial académico de un estudiante en el sist
 - SQLAlchemy
 - Docker
 
-## Endpoints
-- `POST /history`: Crear un nuevo registro de historial académico.
+## Endpoint principal
 
-## Ejemplo JSON
-```json
-{
-  "student_id": "uuid",
-  "section_id": "uuid",
-  "description": "Matrícula en sección"
-}
-```
+### `POST /history`
+Crea una entrada en el historial académico. Valida que `student_id` y `section_id` existan.
 
-## Pruebas
-Las pruebas funcionales pueden realizarse con Postman o pytest.
+## CI/CD
+Preparado para integrar con GitHub Actions, DockerHub y desplegarse en AWS.

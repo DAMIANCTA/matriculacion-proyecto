@@ -26,6 +26,22 @@ services:
       DB_PASSWORD: 0710
       DB_HOST: postgres_history
       DB_NAME: academic_history
+
+    networks:
+      - campus_net
+
+
+  academic-history-service:
+    build: ./24.academic-history-service
+    ports:
+      - "3023:3023"
+    depends_on:
+      - postgres_history
+    environment:
+      DB_USER: damian
+      DB_PASSWORD: 0710
+      DB_HOST: postgres_history
+      DB_NAME: academic_history
     networks:
       - campus_net
 
