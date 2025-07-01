@@ -23,7 +23,6 @@ docker-compose -f enrollment/docker-compose.yml up -d
 docker-compose -f union/docker-compose.yml up -d
 docker-compose -f history/docker-compose.yml up -d
 docker-compose -f 18.ai-recommender-service/docker-compose.yml up -d
-docker-compose -f gateway/docker-compose.yml up -d
 
 echo "✅ [6/6] Despliegue completado."
 docker ps
